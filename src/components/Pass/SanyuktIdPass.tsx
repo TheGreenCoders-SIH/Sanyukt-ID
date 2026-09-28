@@ -119,7 +119,7 @@ export const SanyuktIdPass: React.FC<SanyuktIdPassProps> = ({
             <div className="w-full max-w-md perspective-1000">
               {/* CARD FRONT */}
               {!isFlipped ? (
-                <div className="relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white shadow-2xl border-2 border-amber-500/40 overflow-hidden transform transition-all duration-500 hover:scale-[1.01]">
+                <div className="relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#072648] via-[#0a335c] to-[#0c3d6c] text-white shadow-2xl border-2 border-amber-400/40 overflow-hidden transform transition-all duration-500 hover:scale-[1.01]">
                   {/* Subtle Background Pattern & Gold Micro-grid */}
                   <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#d97706_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none"></div>
                   <div className="absolute -top-12 -right-12 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -220,8 +220,8 @@ export const SanyuktIdPass: React.FC<SanyuktIdPassProps> = ({
                 </div>
               ) : (
                 /* CARD BACK - LICENSES LEDGER */
-                <div className="relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-slate-900 via-slate-950 to-blue-950 text-white shadow-2xl border-2 border-slate-700 overflow-hidden transform transition-all duration-500">
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                <div className="relative rounded-3xl p-6 sm:p-7 bg-gradient-to-br from-[#072648] via-[#0a335c] to-[#0c3d6c] text-white shadow-2xl border-2 border-amber-400/40 overflow-hidden transform transition-all duration-500">
+                  <div className="flex items-center justify-between pb-3 border-b border-white/20">
                     <div className="font-bold text-xs text-amber-400 uppercase tracking-wider">
                       Statutory Clearances Ledger
                     </div>

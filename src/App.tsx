@@ -164,7 +164,7 @@ export default function App() {
   const actionRequiredCount = clearances.filter(c => c.status === 'Action Required').length;
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-sans text-slate-900">
+    <div className="min-h-screen gov-grid-pattern flex flex-col font-sans text-slate-800">
       {/* Top Navbar */}
       <Navbar
         isOfficerMode={isOfficerMode}
@@ -205,15 +205,15 @@ export default function App() {
         />
 
         {/* Content Area */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+        <main id="main-content" className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
           {/* Breadcrumb & Live Supabase Synchronizer strip */}
-          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 text-xs bg-white p-3 rounded-2xl border border-slate-200/80 shadow-xs">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 text-xs bg-white px-4 py-2.5 rounded-lg border border-slate-200 shadow-xs">
             <div className="flex items-center gap-2 text-slate-500 font-medium">
               <span className="text-slate-400">Portal</span>
               <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
-              <span className="text-blue-900 font-bold">Maharashtra Single Window</span>
+              <span className="text-[#0a335c] font-bold">Maharashtra Single Window</span>
               <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
-              <span className="text-slate-800 font-semibold capitalize">
+              <span className="text-slate-800 font-bold capitalize">
                 {activeTab === 'home' && 'Industrial Portal Gateway'}
                 {activeTab === 'wizard' && 'Know Your Approvals Smart Wizard'}
                 {activeTab === 'uaf' && 'Unified Application Form (UAF) & AI Scrutiny'}
@@ -231,7 +231,7 @@ export default function App() {
                 <span className="text-emerald-700 font-bold">Live Synced</span>
               </div>
               <span className="text-slate-300">|</span>
-              <span className="font-mono text-blue-950 font-bold">
+              <span className="font-mono text-[#0a335c] font-bold">
                 {currentUser?.sanyuktId || 'MH-SYN-2026-PN98421'}
               </span>
             </div>
@@ -325,7 +325,7 @@ export default function App() {
 
       {/* Floating State Feedback Toast */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl border border-slate-700 flex items-center gap-2.5 animate-bounce">
+        <div className="fixed bottom-6 right-6 z-50 bg-[#0a335c] text-white text-xs font-semibold px-4 py-3 rounded-lg shadow-2xl border border-slate-300 flex items-center gap-2.5 animate-bounce">
           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>

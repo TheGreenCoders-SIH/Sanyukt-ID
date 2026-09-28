@@ -179,21 +179,19 @@ export const UnifiedApplicationForm: React.FC<UnifiedApplicationFormProps> = ({
         {activeSection === 'ai-scrutiny' && (
           <div className="pt-6 space-y-6">
             {/* AI Control Card */}
-            <div className="bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 rounded-2xl p-6 text-white border border-blue-900 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
-
+            <div className="bg-[#0c3866] rounded-2xl p-6 text-white border border-[#0a335c] shadow-md relative overflow-hidden">
               <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
                 <div className="space-y-2 max-w-xl">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                    <span className="text-xs font-bold uppercase tracking-wider text-amber-400">
+                    <span className="text-xs font-bold uppercase tracking-wider text-amber-300">
                       Sanyukt ID AI Diagnostic Scrutinizer
                     </span>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-black">
                     Pre-Emptive Defect &amp; Compliance Audit
                   </h3>
-                  <p className="text-xs text-slate-300 leading-relaxed">
+                  <p className="text-xs text-slate-200 leading-relaxed">
                     Avoid multi-week department queries. Our state neural scrutiny agent pre-validates
                     plot boundaries against MahaBhulekh GIS, scans factory CAD blueprints for structural
                     stamps, and audits pollution mass-balance models before government dispatch.
@@ -201,34 +199,34 @@ export const UnifiedApplicationForm: React.FC<UnifiedApplicationFormProps> = ({
                 </div>
 
                 {/* Score & Trigger Button */}
-                <div className="flex items-center gap-4 bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+                <div className="flex items-center gap-4 bg-[#082848] p-4 rounded-xl border border-white/10">
                   <div className="text-center">
-                    <div className="text-[10px] text-slate-400 font-semibold uppercase">
+                    <div className="text-[10px] text-slate-300 font-semibold uppercase">
                       Submission Readiness
                     </div>
-                    <div className="text-3xl font-black text-amber-400 mt-0.5">
+                    <div className="text-3xl font-black text-amber-300 mt-0.5">
                       {readinessScore}%
                     </div>
-                    <div className="text-[10px] text-emerald-400 font-bold mt-0.5">
+                    <div className="text-[10px] text-emerald-300 font-bold mt-0.5">
                       {warningCount === 0 ? 'Optimal (No Queries Expected)' : '1 Attention Item'}
                     </div>
                   </div>
 
-                  <div className="h-12 w-px bg-slate-800"></div>
+                  <div className="h-12 w-px bg-white/20"></div>
 
                   <button
                     onClick={handleRunAiCheck}
                     disabled={isScanning}
-                    className="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs shadow-lg transition-all flex items-center gap-2 shrink-0 disabled:opacity-50"
+                    className="px-5 py-3 rounded-lg bg-[#d9531e] hover:bg-[#c44715] text-white font-bold text-xs shadow-md transition-all flex items-center gap-2 shrink-0 disabled:opacity-50"
                   >
                     {isScanning ? (
                       <>
-                        <RefreshCw className="w-4 h-4 animate-spin text-slate-950" />
+                        <RefreshCw className="w-4 h-4 animate-spin text-white" />
                         <span>Running Scrutiny...</span>
                       </>
                     ) : (
                       <>
-                        <Sparkles className="w-4 h-4 text-slate-950" />
+                        <Sparkles className="w-4 h-4 text-white" />
                         <span>Run AI Pre-Check</span>
                       </>
                     )}

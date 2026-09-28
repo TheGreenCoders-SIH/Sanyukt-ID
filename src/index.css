@@ -1,1 +1,31 @@
 @import "tailwindcss";
+
+@layer base {
+  :root {
+    --gov-navy-950: #051a30;
+    --gov-navy-900: #0a335c;
+    --gov-navy-800: #0c3d6c;
+    --gov-navy-700: #104c84;
+    --gov-saffron-600: #d9531e;
+    --gov-saffron-500: #e65c00;
+    --gov-saffron-400: #f57c00;
+  }
+}
+
+/* Subtle Technical Grid Background from reference screenshots */
+.gov-grid-pattern {
+  background-color: #f8fafc;
+  background-image: 
+    linear-gradient(to right, rgba(203, 213, 225, 0.45) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(203, 213, 225, 0.45) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.gov-card-top-navy {
+  border-top: 3px solid #0a335c;
+}
+
+.gov-card-top-saffron {
+  border-top: 3px solid #d9531e;
+}
+

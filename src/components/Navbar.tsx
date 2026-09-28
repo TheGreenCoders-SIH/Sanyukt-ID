@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Building2, 
   ShieldCheck, 
   Bell, 
-  UserCheck, 
   SlidersHorizontal, 
-  ExternalLink,
-  ChevronDown,
-  Sparkles,
-  AlertTriangle,
-  CheckCircle2,
-  FileText,
-  Home,
-  Compass,
-  CreditCard,
-  LogOut,
-  User,
-  ArrowRight
+  LogOut, 
+  Home, 
+  Compass, 
+  FileCheck2, 
+  GitBranch, 
+  CreditCard, 
+  FolderLock, 
+  BarChart3, 
+  AlertTriangle, 
+  CheckCircle2, 
+  User, 
+  PhoneCall, 
+  Search,
+  ExternalLink
 } from 'lucide-react';
 import { AuthUser } from '../lib/supabase';
 
@@ -45,6 +46,32 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [lang, setLang] = useState<'EN' | 'MR'>('EN');
+  const [fontSizeLevel, setFontSizeLevel] = useState<number>(0);
+  const [currentDateTime, setCurrentDateTime] = useState<string>('Mon, 28 Sept, 2026 | 12:53:12 pm');
+
+  // Real-time clock formatted like the Maharashtra government portal
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      // Keep year 2026 as per application timeline
+      const options: Intl.DateTimeFormatOptions = { 
+        weekday: 'short', 
+        day: 'numeric', 
+        month: 'short' 
+      };
+      const datePart = now.toLocaleDateString('en-GB', options);
+      const timePart = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).toLowerCase();
+      setCurrentDateTime(`${datePart}, 2026 | ${timePart}`);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleFontSize = (delta: number) => {
+    setFontSizeLevel(prev => Math.max(-1, Math.min(2, prev + delta)));
+  };
 
   const notifications = [
     {
@@ -74,157 +101,142 @@ export const Navbar: React.FC<NavbarProps> = ({
   ];
 
   return (
-    <header className="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-40 shadow-lg">
-      {/* Top micro-strip with State Emblem & Bilingual identity */}
-      <div className="bg-slate-950 border-b border-slate-800/80 px-4 sm:px-6 py-1.5 text-xs flex flex-wrap items-center justify-between text-slate-300">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 font-medium">
-            <span className="text-amber-400 font-bold">महाराष्ट्र शासन</span>
-            <span className="text-slate-500">|</span>
-            <span className="font-semibold">Govt. of Maharashtra</span>
-          </div>
-          <span className="hidden md:inline-block text-slate-600">•</span>
-          <span className="hidden lg:inline-block text-slate-400 text-[11px]">
-            Industries, Energy &amp; Labour Department • Maharashtra Industrial Single Window
-          </span>
+    <header className="w-full select-none sticky top-0 z-50 shadow-md">
+      {/* 1. TOP UTILITY BAR (Reference: Screenshot 1 top header) */}
+      <div className="bg-[#f1f5f9] text-[#334155] border-b border-[#cbd5e1] text-[11px] font-medium px-4 sm:px-8 py-1.5 flex flex-wrap items-center justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <span className="font-semibold text-[#0a335c]">महाराष्ट्र शासन</span>
+          <span className="text-[#94a3b8]">|</span>
+          <span>Government of Maharashtra</span>
+          <span className="text-[#94a3b8]">|</span>
+          <span className="font-mono text-[#475569]">{currentDateTime}</span>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="hidden sm:flex items-center gap-1.5 text-[11px]">
-            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span className="text-emerald-400 font-semibold">Single-Window Live</span>
-            <span className="text-slate-500">|</span>
-            <span className="text-slate-400">TOLL-FREE HELPLINE: <strong className="text-white">1800-120-8040</strong></span>
-          </div>
+        <div className="flex items-center gap-3">
+          <a href="#main-content" className="hover:text-[#0a335c] hover:underline hidden md:inline">
+            Skip to Main Content
+          </a>
+          <span className="text-[#cbd5e1] hidden md:inline">|</span>
 
-          <button 
-            onClick={() => setLang(lang === 'EN' ? 'MR' : 'EN')}
-            className="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[11px] font-semibold text-amber-300 border border-slate-700 transition-colors"
-            title="Toggle Language"
-          >
-            {lang === 'EN' ? 'मराठी (MR)' : 'English (EN)'}
-          </button>
+          {/* Accessibility Font Resizer */}
+          <div className="flex items-center gap-1 bg-white px-2 py-0.5 rounded border border-[#cbd5e1]">
+            <button 
+              onClick={() => handleFontSize(-1)} 
+              title="Decrease Font Size" 
+              className={`px-1 hover:text-[#0a335c] font-bold ${fontSizeLevel === -1 ? 'text-[#0a335c] underline' : ''}`}
+            >
+              A-
+            </button>
+            <button 
+              onClick={() => handleFontSize(0)} 
+              title="Default Font Size" 
+              className={`px-1 hover:text-[#0a335c] font-bold ${fontSizeLevel === 0 ? 'text-[#0a335c] underline' : ''}`}
+            >
+              A
+            </button>
+            <button 
+              onClick={() => handleFontSize(1)} 
+              title="Increase Font Size" 
+              className={`px-1 hover:text-[#0a335c] font-bold ${fontSizeLevel === 1 ? 'text-[#0a335c] underline' : ''}`}
+            >
+              A+
+            </button>
+          </div>
+          <span className="text-[#cbd5e1]">|</span>
+
+          {/* Bilingual Language Switcher */}
+          <div className="flex items-center text-xs font-semibold">
+            <button
+              onClick={() => setLang('MR')}
+              className={`px-2 py-0.5 rounded-l transition-colors ${
+                lang === 'MR' 
+                  ? 'bg-[#0a335c] text-white' 
+                  : 'bg-white text-[#475569] hover:bg-slate-200 border border-[#cbd5e1]'
+              }`}
+            >
+              मराठी
+            </button>
+            <button
+              onClick={() => setLang('EN')}
+              className={`px-2 py-0.5 rounded-r transition-colors ${
+                lang === 'EN' 
+                  ? 'bg-[#0a335c] text-white' 
+                  : 'bg-white text-[#475569] hover:bg-slate-200 border border-l-0 border-[#cbd5e1]'
+              }`}
+            >
+              English
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Main Navbar */}
-      <div className="px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-        {/* Logo & Platform Name */}
+      {/* 2. INSTITUTIONAL BRAND HEADER (Reference: Screenshot 1 brand banner) */}
+      <div className="bg-white px-4 sm:px-8 py-3.5 border-b border-[#e2e8f0] flex flex-wrap items-center justify-between gap-4">
+        {/* State Emblem & Platform Identity */}
         <div 
           onClick={() => setActiveTab('home')}
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center gap-3.5 cursor-pointer group"
         >
-          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-700 via-blue-800 to-amber-600 p-0.5 shadow-lg flex items-center justify-center shrink-0 border border-amber-400/30 group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center relative overflow-hidden">
-              <Building2 className="w-6 h-6 text-amber-400 relative z-10" />
+          {/* Circular Maharashtra Logo emblem */}
+          <div className="w-12 h-12 rounded-full bg-white border-2 border-[#0a335c] p-0.5 shadow-sm flex items-center justify-center shrink-0">
+            <div className="w-full h-full rounded-full bg-[#f8fafc] flex items-center justify-center relative overflow-hidden border border-[#cbd5e1]">
+              {/* Emblem graphics: Orange sun, green leaf, blue base */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#16a34a]/20 via-[#0a335c]/10 to-[#d9531e]/30"></div>
+              <Building2 className="w-6 h-6 text-[#0a335c] relative z-10 group-hover:scale-110 transition-transform" />
             </div>
           </div>
 
           <div>
+            <div className="text-[12px] font-bold text-[#b91c1c] tracking-tight">
+              महाराष्ट्र शासन <span className="text-[#64748b] font-normal">|</span> <span className="text-[#0a335c]">Govt. of Maharashtra</span>
+            </div>
             <div className="flex items-center gap-2">
-              <span className="text-xl sm:text-2xl font-extrabold tracking-tight text-white flex items-center gap-1">
-                <span>SANYUKT</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 font-black">
-                  -ID
-                </span>
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-700/50 hidden sm:inline-block">
-                Industrial Smart Card
+              <span className="text-2xl sm:text-3xl font-black tracking-tight text-[#0a335c]">
+                SANYUKT<span className="text-[#d9531e]">·</span>ID
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 hidden md:block">
-              {lang === 'EN' 
-                ? 'One Smart Card for All Maharashtra Industrial Clearances & Access' 
-                : 'महाराष्ट्र राज्य औद्योगिक मंजुरी व स्मार्ट कार्ड पोर्टल'}
+            <p className="text-[11px] text-[#64748b] font-medium leading-none">
+              Unified Citizen &amp; Industrial Digital Platform
             </p>
           </div>
         </div>
 
-        {/* Center Navigation Links (Home, Services, Track Application, Pass) */}
-        <nav className="hidden xl:flex items-center gap-1 bg-slate-950/70 p-1 rounded-xl border border-slate-800 text-xs font-semibold">
-          <button
-            onClick={() => setActiveTab('home')}
-            className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-              activeTab === 'home' ? 'bg-blue-700 text-white' : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            <Home className="w-3.5 h-3.5" />
-            <span>Home</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('wizard')}
-            className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-              activeTab === 'wizard' ? 'bg-blue-700 text-white' : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            <Compass className="w-3.5 h-3.5" />
-            <span>Know Approvals</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('workflow')}
-            className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-              activeTab === 'workflow' ? 'bg-blue-700 text-white' : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            <FileText className="w-3.5 h-3.5" />
-            <span>Track Application</span>
-          </button>
-
-          <button
-            onClick={() => setActiveTab('pass')}
-            className={`px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 ${
-              activeTab === 'pass' ? 'bg-blue-700 text-white' : 'text-slate-300 hover:text-white'
-            }`}
-          >
-            <CreditCard className="w-3.5 h-3.5 text-amber-400" />
-            <span>Sanyukt Smart Card</span>
-          </button>
-        </nav>
-
-        {/* Right controls: Notifications, Progress, Auth Controls */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
-          {/* Quick Progress Pill */}
-          <div 
-            onClick={() => setActiveTab('pass')}
-            className="hidden lg:flex items-center gap-2.5 bg-slate-800/80 hover:bg-slate-800 px-3 py-1.5 rounded-xl border border-slate-700 cursor-pointer transition-all"
-            title="View Sanyukt ID Smart Card"
-          >
-            <div className="text-right">
-              <div className="text-[10px] text-slate-400 uppercase font-semibold">Sanyukt Status</div>
-              <div className="text-xs font-bold text-amber-300">
-                {approvedCount} of {totalClearances} NOCs
-              </div>
-            </div>
-            <div className="w-7 h-7 rounded-full bg-blue-900/60 border border-blue-500/40 flex items-center justify-center text-xs font-bold text-amber-400">
-              {Math.round((approvedCount / totalClearances) * 100)}%
-            </div>
+        {/* Right Section: Helpline + Auth Buttons */}
+        <div className="flex items-center gap-4 sm:gap-6">
+          {/* Toll-Free Citizen Helpline */}
+          <div className="hidden lg:flex flex-col text-right">
+            <span className="text-[10px] tracking-wider uppercase font-bold text-[#64748b]">
+              Toll-Free Citizen Helpline
+            </span>
+            <span className="text-lg font-black text-[#0a335c] tracking-tight">
+              1800-120-8040
+            </span>
           </div>
 
-          {/* Notifications Dropdown */}
+          {/* Notification Bell */}
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white transition-colors relative"
-              aria-label="Notifications"
+              className="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 transition-colors relative"
+              aria-label="Statutory Alerts"
+              title="Statutory Alerts"
             >
-              <Bell className="w-4 h-4" />
-              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500"></span>
+              <Bell className="w-4 h-4 text-[#0a335c]" />
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#d9531e] border-2 border-white"></span>
             </button>
 
             {showNotifications && (
-              <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 z-50 p-3.5 text-slate-200">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                  <span className="font-bold text-xs flex items-center gap-1.5">
-                    <Bell className="w-4 h-4 text-amber-400" /> Statutory Clearance Alerts
+              <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-2xl border border-slate-300 z-50 p-4 text-slate-800">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+                  <span className="font-bold text-xs text-[#0a335c] flex items-center gap-1.5">
+                    <Bell className="w-4 h-4 text-[#d9531e]" /> Statutory Clearance Alerts
                   </span>
-                  <span className="text-[10px] bg-red-950 text-red-300 px-2 py-0.5 rounded font-bold border border-red-800">
+                  <span className="text-[10px] bg-red-100 text-red-800 px-2 py-0.5 rounded font-bold border border-red-200">
                     3 Pending
                   </span>
                 </div>
 
-                <div className="divide-y divide-slate-800/80 my-2 max-h-72 overflow-y-auto">
+                <div className="divide-y divide-slate-100 my-2 max-h-72 overflow-y-auto">
                   {notifications.map((n) => (
                     <div 
                       key={n.id}
@@ -232,32 +244,32 @@ export const Navbar: React.FC<NavbarProps> = ({
                         setActiveTab(n.tab);
                         setShowNotifications(false);
                       }}
-                      className="py-2.5 px-2 hover:bg-slate-800/60 rounded-xl cursor-pointer transition-colors"
+                      className="py-2.5 px-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors"
                     >
                       <div className="flex items-start gap-2.5">
-                        {n.type === 'danger' && <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />}
-                        {n.type === 'warning' && <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />}
-                        {n.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />}
+                        {n.type === 'danger' && <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />}
+                        {n.type === 'warning' && <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />}
+                        {n.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />}
                         <div className="flex-1">
-                          <div className="text-xs font-semibold text-white flex items-center justify-between">
+                          <div className="text-xs font-bold text-slate-900 flex items-center justify-between">
                             <span>{n.title}</span>
-                            <span className="text-[10px] text-slate-500 font-normal">{n.time}</span>
+                            <span className="text-[10px] text-slate-400 font-normal">{n.time}</span>
                           </div>
-                          <p className="text-[11px] text-slate-300 mt-0.5">{n.desc}</p>
+                          <p className="text-[11px] text-slate-600 mt-0.5 leading-snug">{n.desc}</p>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-2 border-t border-slate-800 flex justify-between items-center text-xs">
-                  <span className="text-slate-400 text-[11px]">Auto-Escalation SLA Active</span>
+                <div className="pt-2 border-t border-slate-200 flex justify-between items-center text-xs">
+                  <span className="text-slate-500 text-[11px]">Auto-Escalation SLA Active</span>
                   <button 
                     onClick={() => {
                       setActiveTab('workflow');
                       setShowNotifications(false);
                     }}
-                    className="text-amber-400 hover:text-amber-300 font-semibold text-xs"
+                    className="text-[#d9531e] hover:underline font-bold text-xs"
                   >
                     View All →
                   </button>
@@ -266,7 +278,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </div>
 
-          {/* User Auth Buttons / User Pill */}
+          {/* User Logged in / Out controls */}
           {currentUser ? (
             <div className="flex items-center gap-2">
               <div 
@@ -278,44 +290,48 @@ export const Navbar: React.FC<NavbarProps> = ({
                     setActiveTab('pass');
                   }
                 }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 hover:border-amber-400/40 cursor-pointer transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-300 hover:border-[#0a335c] cursor-pointer transition-colors"
                 title="Account Profile"
               >
-                <div className="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 border border-amber-400/40 flex items-center justify-center font-bold text-xs">
-                  {currentUser.role === 'officer' ? 'OF' : 'EN'}
+                <div className="w-7 h-7 rounded-md bg-[#0a335c] text-white flex items-center justify-center font-bold text-xs">
+                  {currentUser.role === 'officer' ? 'OF' : 'ID'}
                 </div>
                 <div className="text-left hidden sm:block">
-                  <div className="text-xs font-bold text-white truncate max-w-[120px]">{currentUser.fullName}</div>
-                  <div className="text-[10px] font-mono text-amber-300">{currentUser.sanyuktId}</div>
+                  <div className="text-xs font-bold text-[#0a335c] truncate max-w-[130px]">
+                    {currentUser.fullName}
+                  </div>
+                  <div className="text-[10px] font-mono text-slate-600">
+                    {currentUser.sanyuktId}
+                  </div>
                 </div>
               </div>
 
               <button
                 onClick={onLogout}
-                className="p-2 rounded-xl bg-slate-800 hover:bg-red-950/60 hover:text-red-300 border border-slate-700 text-slate-400 transition-colors"
+                className="p-2 rounded-lg bg-slate-100 hover:bg-red-50 text-slate-600 hover:text-red-700 border border-slate-300 transition-colors"
                 title="Sign Out"
               >
                 <LogOut className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <button
                 onClick={() => onOpenAuth('login', 'business')}
-                className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-white transition-colors"
+                className="px-4 py-2 rounded-md bg-white hover:bg-slate-50 text-[#0a335c] text-xs font-bold border-2 border-[#0a335c] shadow-xs transition-colors"
               >
                 Citizen / Officer Login
               </button>
               <button
                 onClick={() => onOpenAuth('register', 'business')}
-                className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 text-slate-950 text-xs font-bold shadow-md transition-colors"
+                className="px-4 py-2 rounded-md bg-[#0a335c] hover:bg-[#072648] text-white text-xs font-bold shadow-xs transition-colors"
               >
                 Register
               </button>
             </div>
           )}
 
-          {/* Officer Command Quick Switch */}
+          {/* Toggle Officer Command View */}
           <button
             onClick={() => {
               const newMode = !isOfficerMode;
@@ -326,16 +342,122 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setActiveTab('workflow');
               }
             }}
-            className={`p-2 sm:px-3 sm:py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
+            className={`px-3 py-2 rounded-md text-xs font-bold transition-all flex items-center gap-1.5 ${
               isOfficerMode 
-                ? 'bg-amber-600 text-slate-950 font-bold shadow-md' 
-                : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
+                ? 'bg-[#d9531e] text-white shadow-sm' 
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300'
             }`}
             title="Toggle Officer Command Mode"
           >
-            <SlidersHorizontal className="w-4 h-4" />
+            <SlidersHorizontal className="w-3.5 h-3.5" />
             <span className="hidden md:inline">{isOfficerMode ? 'Officer View' : 'Officer Mode'}</span>
           </button>
+        </div>
+      </div>
+
+      {/* 3. PRIMARY GOVERNMENT NAVIGATION BAR (Reference: Screenshot 1 Navy Bar) */}
+      <nav className="bg-[#0a335c] text-white px-4 sm:px-8 flex items-center overflow-x-auto shadow-inner">
+        <div className="flex items-center space-x-1 py-1">
+          <button
+            onClick={() => setActiveTab('home')}
+            className={`px-4 py-2 rounded text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              activeTab === 'home'
+                ? 'bg-[#072648] text-white shadow-inner border-b-2 border-[#d9531e]'
+                : 'text-slate-200 hover:bg-[#0c3d6c] hover:text-white'
+            }`}
+          >
+            <Home className="w-3.5 h-3.5" />
+            <span>Home</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('wizard')}
+            className={`px-4 py-2 rounded text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              activeTab === 'wizard'
+                ? 'bg-[#072648] text-white shadow-inner border-b-2 border-[#d9531e]'
+                : 'text-slate-200 hover:bg-[#0c3d6c] hover:text-white'
+            }`}
+          >
+            <Compass className="w-3.5 h-3.5" />
+            <span>Citizen Services / Wizard</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('uaf')}
+            className={`px-4 py-2 rounded text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              activeTab === 'uaf'
+                ? 'bg-[#072648] text-white shadow-inner border-b-2 border-[#d9531e]'
+                : 'text-slate-200 hover:bg-[#0c3d6c] hover:text-white'
+            }`}
+          >
+            <FileCheck2 className="w-3.5 h-3.5" />
+            <span>Master Application (UAF)</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('workflow')}
+            className={`px-4 py-2 rounded text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              activeTab === 'workflow'
+                ? 'bg-[#072648] text-white shadow-inner border-b-2 border-[#d9531e]'
+                : 'text-slate-200 hover:bg-[#0c3d6c] hover:text-white'
+            }`}
+          >
+            <GitBranch className="w-3.5 h-3.5" />
+            <span>Track Application / SLA</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('pass')}
+            className={`px-4 py-2 rounded text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              activeTab === 'pass'
+                ? 'bg-[#072648] text-white shadow-inner border-b-2 border-[#d9531e]'
+                : 'text-slate-200 hover:bg-[#0c3d6c] hover:text-white'
+            }`}
+          >
+            <CreditCard className="w-3.5 h-3.5 text-[#fbbf24]" />
+            <span>My Sanyukt Card</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab('vault')}
+            className={`px-4 py-2 rounded text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              activeTab === 'vault'
+                ? 'bg-[#072648] text-white shadow-inner border-b-2 border-[#d9531e]'
+                : 'text-slate-200 hover:bg-[#0c3d6c] hover:text-white'
+            }`}
+          >
+            <FolderLock className="w-3.5 h-3.5" />
+            <span>DigiLocker Vault</span>
+          </button>
+
+          <button
+            onClick={() => {
+              setIsOfficerMode(true);
+              setActiveTab('admin');
+            }}
+            className={`px-4 py-2 rounded text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+              activeTab === 'admin'
+                ? 'bg-[#d9531e] text-white shadow-sm'
+                : 'bg-[#0c3d6c] text-[#fde047] hover:bg-[#0e477d] hover:text-white ml-2'
+            }`}
+          >
+            <BarChart3 className="w-3.5 h-3.5" />
+            <span>Officer Portal</span>
+          </button>
+        </div>
+      </nav>
+
+      {/* 4. ANNOUNCEMENT / NOTICE TICKER STRIP (Reference: Screenshot 1 Notice Bar) */}
+      <div className="bg-[#fffbeb] border-b border-[#fed7aa] px-4 sm:px-8 py-2 text-xs flex items-center gap-3 text-slate-800 overflow-hidden">
+        <span className="bg-[#d9531e] text-white font-extrabold text-[10px] px-2 py-0.5 rounded tracking-wide shrink-0 uppercase shadow-xs">
+          NOTICE
+        </span>
+        <div className="truncate flex-1 font-medium text-slate-700">
+          <strong className="text-slate-900">Latest Notification:</strong> Integrated 7/12 Land Records, Building Permissions (BPAMS), Factory Safety (DISH), and Social Welfare linkages are now processed with single-click citizen consent under Maharashtra Public Services Guarantee Act.
+        </div>
+        <div className="hidden lg:flex items-center gap-2 text-[11px] text-slate-500 shrink-0 font-medium">
+          <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>Single-Window Live</span>
         </div>
       </div>
     </header>
